@@ -148,7 +148,7 @@ public class AdminDAO {
             e.printStackTrace();
         }
         return updated;
-    })
+    }
     public boolean changePassword(String username, String oldPassword, String newPassword) {
         boolean changed = false;
         try {
