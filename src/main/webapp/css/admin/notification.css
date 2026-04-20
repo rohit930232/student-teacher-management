@@ -1,0 +1,342 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(130deg, #2d3748 0%, #4a5568 50%, #2c3e50 100%);
+    min-height: 100vh;
+    padding: 40px 24px;
+}
+
+.container {
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.icon-circle {
+    width: 85px;
+    height: 85px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 18px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.icon-circle span {
+    font-size: 48px;
+}
+
+.header h1 {
+    font-size: 46px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.5px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+    margin-bottom: 8px;
+}
+
+.header p {
+    color: rgba(255,255,255,0.92);
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.notification-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 32px;
+}
+
+.send-notification-box, .notifications-box {
+    background: white;
+    border-radius: 28px;
+    padding: 28px;
+    box-shadow: 0 20px 35px -12px rgba(0,0,0,0.25);
+    transition: transform 0.2s;
+}
+
+.send-notification-box:hover, .notifications-box:hover {
+    transform: translateY(-4px);
+}
+
+.box-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 3px solid #eef2ff;
+    flex-wrap: wrap;
+}
+
+.box-title span {
+    font-size: 32px;
+}
+
+.box-title h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.badge {
+    background: linear-gradient(130deg, #2d3748, #4a5568);
+    color: white;
+    border-radius: 40px;
+    padding: 4px 14px;
+    font-size: 15px;
+    font-weight: 700;
+    margin-left: auto;
+}
+
+.clear-all {
+    background: #fee2e2;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 30px;
+    color: #b91c1c;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.clear-all:hover {
+    background: #fecaca;
+    transform: scale(1.02);
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.input-group input, .input-group select {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    font-family: inherit;
+    font-size: 15px;
+    transition: all 0.2s;
+}
+
+.input-group textarea {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    font-family: inherit;
+    font-size: 15px;
+    resize: vertical;
+    transition: all 0.2s;
+}
+
+.input-group input:focus, .input-group textarea:focus, .input-group select:focus {
+    outline: none;
+    border-color: #4a5568;
+    box-shadow: 0 0 0 3px rgba(74,85,104,0.15);
+}
+
+.send-btn {
+    background: linear-gradient(130deg, #2d3748, #4a5568);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s;
+}
+
+.send-btn:hover {
+    background: linear-gradient(130deg, #1a202c, #2d3748);
+    transform: scale(1.01);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.notifications-list {
+    max-height: 550px;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+
+.notifications-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notifications-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.notifications-list::-webkit-scrollbar-thumb {
+    background: #4a5568;
+    border-radius: 10px;
+}
+
+.notif-card {
+    background: #f8fafc;
+    border-radius: 20px;
+    padding: 18px;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 15px;
+    transition: all 0.2s;
+    border-left: 5px solid;
+}
+
+.notif-card.priority-high {
+    border-left-color: #ef4444;
+    background: #fff5f5;
+}
+
+.notif-card.priority-medium {
+    border-left-color: #f59e0b;
+    background: #fffbeb;
+}
+
+.notif-card.priority-low {
+    border-left-color: #3b82f6;
+    background: #eff6ff;
+}
+
+.notif-card:hover {
+    transform: translateX(5px);
+}
+
+.notif-icon {
+    font-size: 32px;
+}
+
+.notif-content {
+    flex: 1;
+}
+
+.notif-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.notif-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+.delete-notif {
+    background: #fee2e2;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 30px;
+    color: #b91c1c;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.delete-notif:hover {
+    background: #fecaca;
+    transform: scale(1.02);
+}
+
+.notif-message {
+    font-size: 14px;
+    color: #334155;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.notif-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.notif-date {
+    font-size: 11px;
+    color: #64748b;
+    background: #e2e8f0;
+    padding: 4px 12px;
+    border-radius: 30px;
+    font-weight: 500;
+}
+
+.empty-msg {
+    text-align: center;
+    padding: 50px 20px;
+    color: #64748b;
+}
+
+.empty-msg span {
+    font-size: 55px;
+    display: block;
+    margin-bottom: 15px;
+    opacity: 0.6;
+}
+
+.empty-msg p {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+@media (max-width: 850px) {
+    .notification-wrapper {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    
+    .header h1 {
+        font-size: 34px;
+    }
+    
+    .box-title h2 {
+        font-size: 22px;
+    }
+    
+    .box-title {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .badge, .clear-all {
+        margin-left: 0;
+    }
+}

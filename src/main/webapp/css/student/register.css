@@ -10,8 +10,6 @@ body {
     position: relative;
     background: #f8fafc;
 }
-
-/* Animated Background */
 .animated-bg {
     position: fixed;
     top: 0;
@@ -88,7 +86,6 @@ body {
     50% { transform: translate(-20px, 30px) scale(0.9); }
 }
 
-/* Main Container */
 .container {
     min-height: 100vh;
     display: flex;
@@ -119,7 +116,6 @@ body {
     }
 }
 
-/* Header Gradient */
 .header-gradient {
     background: linear-gradient(135deg, #4158D0 0%, #C850C0 50%, #FFCC70 100%);
     padding: 40px 40px 30px;
@@ -177,8 +173,6 @@ body {
     opacity: 0.9;
     font-weight: 300;
 }
-
-/* Alert Messages */
 .alert {
     margin: 20px 40px 0;
     padding: 16px 24px;
@@ -216,8 +210,6 @@ body {
 .alert i {
     font-size: 24px;
 }
-
-/* Form Sections */
 .form-section {
     padding: 30px 40px;
     border-bottom: 2px solid #f1f5f9;
@@ -245,8 +237,6 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-
-/* Form Rows and Groups */
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -282,8 +272,6 @@ body {
     margin-left: 4px;
     font-size: 16px;
 }
-
-/* Input Fields */
 .form-group input,
 .form-group select,
 .form-group textarea {
@@ -315,8 +303,6 @@ body {
     min-height: 100px;
     line-height: 1.6;
 }
-
-/* Input Number Styling */
 .form-group input[type="number"] {
     -moz-appearance: textfield;
 }
@@ -326,8 +312,6 @@ body {
     -webkit-appearance: none;
     margin: 0;
 }
-
-/* Password Wrapper */
 .password-wrapper {
     position: relative;
 }
@@ -335,8 +319,6 @@ body {
 .password-wrapper input {
     padding-right: 45px;
 }
-
-/* File Input Styling */
 .file-input-wrapper {
     position: relative;
     margin-top: 5px;
@@ -378,8 +360,6 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(65, 88, 208, 0.2);
 }
-
-/* Select Dropdown Styling */
 select {
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234158D0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
@@ -388,8 +368,6 @@ select {
     background-size: 16px;
     cursor: pointer;
 }
-
-/* Form Checkbox */
 .form-checkbox {
     margin-bottom: 20px;
     padding: 10px 0;
@@ -459,12 +437,9 @@ select {
     font-weight: 500;
 }
 
-/* Temporary Address Group */
 #temporary_address_group {
     transition: all 0.3s ease;
 }
-
-/* Terms Section */
 .terms-section {
     padding: 25px 40px;
     background: #f8fafc;
@@ -487,8 +462,6 @@ select {
 .terms-text a:hover {
     text-decoration: underline;
 }
-
-/* Form Actions */
 .form-actions {
     padding: 30px 40px;
     display: flex;
@@ -560,7 +533,6 @@ select {
     border-color: #4158D0;
 }
 
-/* Login Link */
 .login-link {
     text-align: center;
     padding: 25px 40px;
@@ -596,7 +568,6 @@ select {
     width: 100%;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .form-row {
         grid-template-columns: 1fr;
@@ -685,7 +656,6 @@ select {
     }
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -703,19 +673,15 @@ select {
     background: linear-gradient(135deg, #C850C0, #4158D0);
 }
 
-/* Loading State */
 .btn-primary:disabled {
     opacity: 0.7;
     cursor: not-allowed;
 }
-
-/* Focus Visible for Accessibility */
 :focus-visible {
     outline: 3px solid #4158D0;
     outline-offset: 2px;
 }
 
-/* Print Styles */
 @media print {
     .animated-bg,
     .form-actions,

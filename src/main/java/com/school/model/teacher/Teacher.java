@@ -3,7 +3,7 @@ package com.school.model.teacher;
 import java.util.Date;
 
 public class Teacher {
-
+    private int teacher_id;
     private String username;
     private String name;
     private String email;
@@ -13,7 +13,6 @@ public class Teacher {
     private double salary;
     private String photo;
     private int class_id;
-
     private Date dob;
     private int age;
     private String gender;
@@ -21,7 +20,6 @@ public class Teacher {
     private int experience;
     private String class_teacher;
     private String status;
-
     private String account_holder;
     private String account_number;
     private String bank_name;
@@ -29,11 +27,12 @@ public class Teacher {
     private String branch;
     private String pan_number;
     private String upi_id;
-
     private String address;
     private String permanent_address;
-
-    // getters setters (short)
+    private Date joining_date;
+    private double remaining_salary;
+    public int getTeacher_id() { return teacher_id; }
+    public void setTeacher_id(int teacher_id) { this.teacher_id = teacher_id; }
 
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
@@ -109,4 +108,10 @@ public class Teacher {
 
     public String getPermanent_address() { return permanent_address; }
     public void setPermanent_address(String permanent_address) { this.permanent_address = permanent_address; }
+    
+    public Date getJoining_date() { return joining_date; }
+    public void setJoining_date(Date joining_date) { this.joining_date = joining_date; }
+    
+    public double getRemaining_salary() { return remaining_salary; }
+    public void setRemaining_salary(double remaining_salary) { this.remaining_salary = remaining_salary; }
 }

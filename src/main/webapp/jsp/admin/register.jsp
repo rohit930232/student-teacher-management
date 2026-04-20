@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Animated Background -->
     <div class="animated-bg">
         <div class="bg-shape shape1"></div>
         <div class="bg-shape shape2"></div>
@@ -19,7 +18,6 @@
 
     <div class="container">
         <div class="registration-card">
-            <!-- Header with Logo -->
             <div class="header-gradient">
                 <div class="logo-container">
                     <img src="<%=request.getContextPath() %>/images/logo.png" alt="Gurukul Logo" class="logo">
@@ -28,8 +26,6 @@
                 <p class="header-title">Admin Registration</p>
                 <p class="header-subtitle">Create administrator account</p>
             </div>
-
-            <!-- Message Display -->
             <%
                 String message = request.getParameter("message");
                 String error = request.getParameter("error");
@@ -49,10 +45,8 @@
             <%
                 }
             %>
-
-            <!-- Registration Form -->
             <form action="<%=request.getContextPath()%>/Admin/Register" method="post" class="registration-form" enctype="multipart/form-data">
-                <!-- Admin Information -->
+                
                 <div class="form-section">
                     <h3 class="section-title">
                         <i class="fas fa-user-shield"></i>
@@ -173,8 +167,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Terms and Conditions -->
                 <div class="terms-section">
                     <label class="checkbox-container">
                         <input type="checkbox" name="terms" required>
@@ -182,8 +174,6 @@
                         <span class="terms-text">I confirm that all information provided is correct and I agree to the <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a></span>
                     </label>
                 </div>
-
-                <!-- Form Actions -->
                 <div class="form-actions">
                     <button type="reset" class="btn btn-secondary">
                         <i class="fas fa-redo-alt"></i>
@@ -195,15 +185,11 @@
                     </button>
                 </div>
             </form>
-
-            <!-- Login Link -->
             <div class="login-link">
                 <p>Already have an account? <a href="../login.jsp">Login here</a></p>
             </div>
         </div>
     </div>
-
-    <!-- JavaScript for File Input and Password Match -->
     <script>
         // File input display
         document.getElementById('photo').addEventListener('change', function(e) {

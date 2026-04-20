@@ -10,8 +10,6 @@ body {
     position: relative;
     background: #f8fafc;
 }
-
-/* Animated Background */
 .animated-bg {
     position: fixed;
     top: 0;
@@ -87,8 +85,6 @@ body {
     0%, 100% { transform: translate(0, 0) scale(1); }
     50% { transform: translate(-20px, 30px) scale(0.9); }
 }
-
-/* Main Container */
 .container {
     min-height: 100vh;
     display: flex;
@@ -118,8 +114,6 @@ body {
         transform: scale(1) translateY(0);
     }
 }
-
-/* Header Gradient */
 .header-gradient {
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #6b8cce 100%);
     padding: 40px 40px 30px;
@@ -176,8 +170,6 @@ body {
     opacity: 0.9;
     font-weight: 300;
 }
-
-/* Alert Messages */
 .alert {
     margin: 20px 40px 0;
     padding: 16px 24px;
@@ -215,8 +207,6 @@ body {
 .alert i {
     font-size: 24px;
 }
-
-/* Form Sections */
 .form-section {
     padding: 30px 40px;
     border-bottom: 2px solid #f1f5f9;
@@ -244,8 +234,6 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-
-/* Form Rows and Groups */
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -281,8 +269,6 @@ body {
     margin-left: 4px;
     font-size: 16px;
 }
-
-/* Input Fields */
 .form-group input,
 .form-group select,
 .form-group textarea {
@@ -314,8 +300,6 @@ body {
     min-height: 80px;
     line-height: 1.6;
 }
-
-/* Password Wrapper */
 .password-wrapper {
     position: relative;
 }
@@ -324,7 +308,6 @@ body {
     padding-right: 45px;
 }
 
-/* File Input Styling */
 .file-input-wrapper {
     position: relative;
     margin-top: 5px;
@@ -366,8 +349,6 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(30, 60, 114, 0.2);
 }
-
-/* Select Dropdown Styling */
 select {
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%231e3c72' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
@@ -377,7 +358,6 @@ select {
     cursor: pointer;
 }
 
-/* Terms Section */
 .terms-section {
     padding: 25px 40px;
     background: #f8fafc;
@@ -459,7 +439,6 @@ select {
     text-decoration: underline;
 }
 
-/* Form Actions */
 .form-actions {
     padding: 30px 40px;
     display: flex;
@@ -566,8 +545,6 @@ select {
 .login-link a:hover::after {
     width: 100%;
 }
-
-/* Responsive Design */
 @media (max-width: 768px) {
     .form-row {
         grid-template-columns: 1fr;
@@ -655,8 +632,6 @@ select {
         font-size: 14px;
     }
 }
-
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
     width: 10px;
 }

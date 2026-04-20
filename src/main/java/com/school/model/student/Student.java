@@ -3,13 +3,12 @@ package com.school.model.student;
 import java.util.Date;
 
 public class Student {
-
+    private int student_id;
     private String username;
     private String name;
     private String email;
     private String password;
     private String student_mobile;
-    private String alternate_mobile;
     private String permanent_address;
     private String temporary_address;
     private String photo;
@@ -24,8 +23,38 @@ public class Student {
     private String blood_group;
     private String gender;
     private int roll_number;
+    private double fees_paid;
+    private double fees_remaining;
+    public Student() {}
 
-    // getters setters (short form)
+    public Student(String username, String name, String email, String password, 
+                   String student_mobile, String permanent_address, String temporary_address, 
+                   String photo, int class_id, String father_name, String mother_name, 
+                   String parents_mobile, String father_occupation, String mother_occupation, 
+                   double annual_income, Date dob, String blood_group, String gender, int roll_number) {
+        this.username = username;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.student_mobile = student_mobile;
+        this.permanent_address = permanent_address;
+        this.temporary_address = temporary_address;
+        this.photo = photo;
+        this.class_id = class_id;
+        this.father_name = father_name;
+        this.mother_name = mother_name;
+        this.parents_mobile = parents_mobile;
+        this.father_occupation = father_occupation;
+        this.mother_occupation = mother_occupation;
+        this.annual_income = annual_income;
+        this.dob = dob;
+        this.blood_group = blood_group;
+        this.gender = gender;
+        this.roll_number = roll_number;
+    }
+
+    public int getStudent_id() { return student_id; }
+    public void setStudent_id(int student_id) { this.student_id = student_id; }
 
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
@@ -41,9 +70,6 @@ public class Student {
 
     public String getStudent_mobile() { return student_mobile; }
     public void setStudent_mobile(String student_mobile) { this.student_mobile = student_mobile; }
-
-    public String getAlternate_mobile() { return alternate_mobile; }
-    public void setAlternate_mobile(String alternate_mobile) { this.alternate_mobile = alternate_mobile; }
 
     public String getPermanent_address() { return permanent_address; }
     public void setPermanent_address(String permanent_address) { this.permanent_address = permanent_address; }
@@ -86,4 +112,10 @@ public class Student {
 
     public int getRoll_number() { return roll_number; }
     public void setRoll_number(int roll_number) { this.roll_number = roll_number; }
+
+    public double getFees_paid() { return fees_paid; }
+    public void setFees_paid(double fees_paid) { this.fees_paid = fees_paid; }
+
+    public double getFees_remaining() { return fees_remaining; }
+    public void setFees_remaining(double fees_remaining) { this.fees_remaining = fees_remaining; }
 }

@@ -3,7 +3,7 @@
 <%
     String savedUser = "";
     String savedPass = "";
-    String savedRole = "student"; // default role
+    String savedRole = "student"; 
 
     Cookie[] cookies = request.getCookies();
 

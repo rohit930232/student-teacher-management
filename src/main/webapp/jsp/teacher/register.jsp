@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Animated Background -->
     <div class="animated-bg">
         <div class="bg-shape shape1"></div>
         <div class="bg-shape shape2"></div>
@@ -19,7 +18,6 @@
 
     <div class="container">
         <div class="registration-card">
-            <!-- Header with Logo -->
             <div class="header-gradient">
                 <div class="logo-container">
                     <img src="<%=request.getContextPath() %>/images/logo.png" alt="Gurukul Logo" class="logo">
@@ -28,8 +26,6 @@
                 <p class="header-title">Teacher Registration Form</p>
                 <p class="header-subtitle">Join our teaching faculty</p>
             </div>
-
-            <!-- Message Display -->
             <%
                 String message = request.getParameter("message");
                 String error = request.getParameter("error");
@@ -49,8 +45,6 @@
             <%
                 }
             %>
-
-            <!-- Registration Form -->
             <form action="<%=request.getContextPath()%>/Teacher/Register" method="post" class="registration-form" enctype="multipart/form-data">
                 <!-- Personal Information -->
                 <div class="form-section">
@@ -247,8 +241,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Bank Details -->
                 <div class="form-section">
                     <h3 class="section-title">
                         <i class="fas fa-university"></i>
@@ -320,8 +312,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Address Information -->
                 <div class="form-section">
                     <h3 class="section-title">
                         <i class="fas fa-map-marker-alt"></i>
@@ -354,8 +344,6 @@
                                   placeholder="Enter permanent address"></textarea>
                     </div>
                 </div>
-
-                <!-- Terms and Conditions -->
                 <div class="terms-section">
                     <label class="checkbox-container">
                         <input type="checkbox" name="terms" required>
@@ -363,8 +351,6 @@
                         <span class="terms-text">I confirm that all information provided is correct and I agree to the <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a></span>
                     </label>
                 </div>
-
-                <!-- Form Actions -->
                 <div class="form-actions">
                     <button type="reset" class="btn btn-secondary">
                         <i class="fas fa-redo-alt"></i>
@@ -376,17 +362,12 @@
                     </button>
                 </div>
             </form>
-
-            <!-- Login Link -->
             <div class="login-link">
                 <p>Already have an account? <a href="../login.jsp">Login here</a></p>
             </div>
         </div>
     </div>
-
-    <!-- JavaScript for Same Address Checkbox and File Input -->
     <script>
-        // Handle Same as Current Address checkbox
         document.getElementById('same_as_current').addEventListener('change', function(e) {
             const permanentAddressGroup = document.getElementById('permanent_address_group');
             
@@ -396,8 +377,6 @@
                 permanentAddressGroup.style.display = 'block';
             }
         });
-
-        // File input display
         document.getElementById('photo').addEventListener('change', function(e) {
             const fileName = e.target.files[0]?.name;
             const fileLabel = document.querySelector('.file-label');
@@ -407,8 +386,6 @@
                 fileLabel.innerHTML = '<i class="fas fa-upload"></i> Choose Photo';
             }
         });
-
-        // Calculate age from DOB (optional)
         document.getElementById('dob').addEventListener('change', function(e) {
             const dob = new Date(this.value);
             const today = new Date();
