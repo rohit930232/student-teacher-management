@@ -1,32 +1,32 @@
 package com.school.controller.admin;
+
 import java.io.IOException;
-import java.util.*;
-import javax.servlet.*;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import com.school.dao.admin.AdminDAO;
+import com.school.dao.admin.AdminDashboardDAO;
 
-@WebServlet("/Admin/Dashboard")
+@WebServlet("/admin/dashboard")
 public class AdminDashboardServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+
+    protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        try {
-            HttpSession session = request.getSession(false);
-            if (session == null || session.getAttribute("username") == null) {
-                response.sendRedirect(request.getContextPath() + "/jsp/login.jsp");
-                return;
-            }
-            AdminDAO dao = new AdminDAO();
-            request.setAttribute("totalStudents", dao.getTotalStudents());
-            request.setAttribute("totalTeachers", dao.getTotalTeachers());
-            request.setAttribute("totalClasses", dao.getTotalClasses());
-            request.setAttribute("totalFees", dao.getTotalFees());
-            request.setAttribute("noticeBoardList", dao.getNotices());
-            request.setAttribute("notificationsList", dao.getNotifications());
-            RequestDispatcher rd = request.getRequestDispatcher("/jsp/admin/dashboard.jsp");
-            rd.forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        HttpSession session = req.getSession(false);
+        if (session == null || !"admin".equals(session.getAttribute("role"))) {
+            res.sendRedirect(req.getContextPath() + "/jsp/login.jsp");
+            return;
         }
+
+        AdminDashboardDAO dao = new AdminDashboardDAO();
+        req.setAttribute("totalStudents",   dao.getTotalStudents());
+        req.setAttribute("totalTeachers",   dao.getTotalTeachers());
+        req.setAttribute("totalClasses",    dao.getTotalClasses());
+        req.setAttribute("totalStaff",      dao.getTotalStaff());
+        req.setAttribute("notices",         dao.getRecentNotices());
+        req.setAttribute("notifications",   dao.getRecentNotifications());
+        req.setAttribute("upcomingExams",   dao.getUpcomingExams());
+
+        req.getRequestDispatcher("/jsp/admin/dashboard.jsp").forward(req, res);
     }
 }

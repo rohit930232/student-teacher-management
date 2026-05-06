@@ -1,0 +1,28 @@
+.help-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.help-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.help-card-head { display: flex; align-items: center; gap: 12px; padding: 18px 24px; border-bottom: 1px solid var(--border); }
+.help-card-head i { color: var(--primary); font-size: 18px; }
+.help-card-head h3 { font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 700; }
+.faq-list { padding: 8px 0; }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-item:last-child { border-bottom: none; }
+.faq-question { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; cursor: pointer; transition: background 0.2s; }
+.faq-question:hover { background: var(--bg); }
+.faq-question span { font-size: 14px; font-weight: 600; color: var(--text); }
+.faq-question i { color: var(--muted); transition: transform 0.3s; }
+.faq-answer { display: none; padding: 0 24px 16px; font-size: 13px; color: var(--muted); line-height: 1.6; }
+.contact-info-grid { display: flex; flex-direction: column; gap: 4px; padding: 16px 24px 0; }
+.contact-info-item { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.contact-info-item:last-child { border-bottom: none; }
+.contact-info-item i { width: 36px; height: 36px; background: var(--primary-light); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 16px; flex-shrink: 0; }
+.contact-info-item span { font-size: 12px; color: var(--muted); display: block; margin-bottom: 3px; }
+.contact-info-item p { font-size: 14px; font-weight: 700; color: var(--text); }
+.form-field { padding: 0 24px; margin-bottom: 14px; }
+.form-field label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 7px; }
+.form-field input, .form-field textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 14px; font-family: 'Nunito', sans-serif; outline: none; transition: border 0.2s; background: var(--bg); }
+.form-field input:focus, .form-field textarea:focus { border-color: var(--primary); background: #fff; }
+.form-field textarea { resize: vertical; }
+.btn-send { margin: 8px 24px 24px; background: var(--primary); color: #fff; border: none; padding: 11px 24px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Nunito', sans-serif; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
+.btn-send:hover { background: #3a56d4; }
+
+@media (max-width: 900px) { .help-layout { grid-template-columns: 1fr; } }

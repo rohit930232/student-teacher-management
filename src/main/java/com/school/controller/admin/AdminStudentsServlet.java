@@ -3,20 +3,17 @@ package com.school.controller.admin;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
+import com.school.dao.admin.AdminClassDAO;
 
-import com.school.dao.admin.AdminStudentDAO;
-
-@WebServlet("/Admin/Students")
+@WebServlet("/admin/students")
 public class AdminStudentsServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        AdminStudentDAO dao = new AdminStudentDAO();
-        req.setAttribute("classList", dao.getClassStudentCount());
-        req.getRequestDispatcher("/jsp/admin/manage-students.jsp")
-                .forward(req, res);
+
+        AdminClassDAO dao = new AdminClassDAO();
+        req.setAttribute("classList", dao.getClassListWithTeacher());
+        req.getRequestDispatcher("/jsp/admin/students.jsp").forward(req, res);
     }
 }

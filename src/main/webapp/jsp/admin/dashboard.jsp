@@ -1,166 +1,117 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
+<%
+    request.setAttribute("currentPage", "dashboard");
+    request.setAttribute("pageTitle", "Dashboard");
+    int totalStudents = request.getAttribute("totalStudents") != null ? (Integer) request.getAttribute("totalStudents") : 0;
+    int totalTeachers = request.getAttribute("totalTeachers") != null ? (Integer) request.getAttribute("totalTeachers") : 0;
+    int totalClasses  = request.getAttribute("totalClasses")  != null ? (Integer) request.getAttribute("totalClasses")  : 0;
+    int totalStaff    = request.getAttribute("totalStaff")    != null ? (Integer) request.getAttribute("totalStaff")    : 0;
+%>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Dashboard | Student Management</title>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/admin/topSide.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/admin/dashboard.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+<div class="layout">
+    <jsp:include page="sidebar.jsp" />
+    <div class="main">
+        <jsp:include page="topbar.jsp" />
+        <div class="page-body">
+            <div class="stats-grid">
+                <div class="stat-card blue">
+                    <div class="stat-icon"><i class="fas fa-user-graduate"></i></div>
+                    <div class="stat-body"><p class="stat-label">Total Students</p><h3 class="stat-value"><%= totalStudents %></h3></div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <div class="stat-body"><p class="stat-label">Total Teachers</p><h3 class="stat-value"><%= totalTeachers %></h3></div>
+                </div>
+                <div class="stat-card orange">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-body"><p class="stat-label">Total Staff</p><h3 class="stat-value"><%= totalStaff %></h3></div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="stat-icon"><i class="fas fa-school"></i></div>
+                    <div class="stat-body"><p class="stat-label">Total Classes</p><h3 class="stat-value"><%= totalClasses %></h3></div>
+                </div>
+            </div>
 
-<div class="dashboard">
-    <aside class="sidebar">
-        <div class="profile-section">
-            <c:choose>
-                <c:when test="${not empty sessionScope.photo}">
-                    <img src="<%=request.getContextPath()%>/${sessionScope.photo}" class="profile-img">
-                </c:when>
-                <c:otherwise>
-                    <img src="<%=request.getContextPath()%>/images/default.png" class="profile-img">
-                </c:otherwise>
-            </c:choose>
-            <h3 class="profile-name">${sessionScope.username}</h3>
-            <p class="profile-role">Administrator</p>
-        </div>
+            <div class="quick-actions-card">
+                <div class="card-head"><h3><i class="fas fa-bolt"></i> Quick Actions</h3></div>
+                <div class="action-buttons">
+                    <a href="<%=request.getContextPath()%>/jsp/student/register.jsp" class="action-btn blue"><i class="fas fa-user-plus"></i> Add Student</a>
+                    <a href="<%=request.getContextPath()%>/jsp/teacher/register.jsp" class="action-btn green"><i class="fas fa-chalkboard-teacher"></i> Add Teacher</a>
+                    <a href="<%=request.getContextPath()%>/admin/notices" class="action-btn orange"><i class="fas fa-bullhorn"></i> Add Notice</a>
+                    <a href="<%=request.getContextPath()%>/admin/notifications" class="action-btn purple"><i class="fas fa-bell"></i> Send Notification</a>
+                    <a href="<%=request.getContextPath()%>/admin/payment" class="action-btn teal"><i class="fas fa-rupee-sign"></i> Pay Salary</a>
+                    <a href="<%=request.getContextPath()%>/admin/timetable" class="action-btn pink"><i class="fas fa-calendar-alt"></i> Manage Timetable</a>
+                </div>
+            </div>
 
-        <nav class="sidebar-nav">
-            <a href="<%=request.getContextPath()%>/Admin/Dashboard" class="nav-item active">📊 Dashboard</a>
-            <a href="<%=request.getContextPath()%>/Admin/Students" class="nav-item">👨‍🎓 Students</a>
-            <a href="<%=request.getContextPath()%>/Admin/Teachers" class="nav-item">👩‍🏫 Teachers</a>
-            <a href="<%=request.getContextPath()%>/Admin/NonTeachingStaff" class="nav-item">👔 Staff</a>
-            <a href="<%=request.getContextPath()%>/Admin/Notices" class="nav-item">📢 Notices</a>
-            <a href="<%=request.getContextPath()%>/Admin/Fees" class="nav-item">💰 Fees</a>
-            <a href="<%=request.getContextPath()%>/Admin/Notifications" class="nav-item">🔔 Notifications</a>
-            <a href="<%=request.getContextPath()%>/Admin/Profile" class="nav-item profile-item">👤 My Profile</a>
-            <a href="<%=request.getContextPath()%>/Logout" class="nav-item logout-btn">🚪 Logout</a>
-        </nav>
-    </aside>
-    <main class="main-content">
-        <div class="welcome-header">
-            <h1>
-                Welcome,
-                <c:choose>
-                    <c:when test="${not empty sessionScope.fullname}">
-                        ${fn:split(sessionScope.fullname, ' ')[0]}
-                    </c:when>
-                    <c:otherwise>
-                        ${sessionScope.username}
-                    </c:otherwise>
-                </c:choose>
-                !
-            </h1>
-        </div>
-        <div class="stats-cards">
-            <div class="stat-card blue">
-                <div class="stat-icon">👨‍🎓</div>
-                <div class="stat-info">
-                    <h3>Total Students</h3>
-                    <p>${totalStudents}</p>
-                </div>
-            </div>
-            <div class="stat-card green">
-                <div class="stat-icon">👩‍🏫</div>
-                <div class="stat-info">
-                    <h3>Total Teachers</h3>
-                    <p>${totalTeachers}</p>
-                </div>
-            </div>
-            <div class="stat-card orange">
-                <div class="stat-icon">📚</div>
-                <div class="stat-info">
-                    <h3>Total Classes</h3>
-                    <p>${totalClasses}</p>
-                </div>
-            </div>
-            <div class="stat-card purple">
-                <div class="stat-icon">💰</div>
-                <div class="stat-info">
-                    <h3>Total Fees Collected</h3>
-                    <p>${totalFees}</p>
-                </div>
-            </div>
-        </div>
-        <div class="two-columns">
-            <div class="left-column">
-                <div class="card notice-board">
-                    <div class="card-header">
-                        <h3>📢 Notice Board</h3>
-                    </div>
+            <div class="mid-grid">
+                <div class="card">
+                    <div class="card-head"><h3><i class="fas fa-bullhorn"></i> Recent Notices</h3><a href="<%=request.getContextPath()%>/admin/notices" class="card-link">View All &rsaquo;</a></div>
                     <div class="card-body">
-                        <c:choose>
-                            <c:when test="${not empty noticeBoardList}">
-                                <ul class="notice-list">
-                                    <c:forEach var="notice" items="${noticeBoardList}">
-                                        <li>📌 ${notice}</li>
-                                    </c:forEach>
-                                </ul>
-                            </c:when>
-                            <c:otherwise>
-                                <p>No notices available</p>
-                            </c:otherwise>
-                        </c:choose>
+                        <%
+                            List<String> notices = (List<String>) request.getAttribute("notices");
+                            if (notices != null && !notices.isEmpty()) {
+                                for (String n : notices) {
+                        %>
+                        <div class="notice-item"><i class="fas fa-circle-dot"></i><p><%= n %></p></div>
+                        <% } } else { %>
+                        <div class="empty-state"><i class="fas fa-bullhorn"></i><p>No notices yet</p></div>
+                        <% } %>
                     </div>
                 </div>
 
-                <div class="card quick-actions">
-                    <div class="card-header">
-                        <h3>⚡ Quick Actions</h3>
-                    </div>
+                <div class="card">
+                    <div class="card-head"><h3><i class="fas fa-bell"></i> Recent Notifications</h3><a href="<%=request.getContextPath()%>/admin/notifications" class="card-link">View All &rsaquo;</a></div>
                     <div class="card-body">
-                        <div class="action-buttons">
-                            <a href="<%=request.getContextPath()%>/jsp/student/register.jsp" class="action-btn">➕ Add Student</a>
-                            <a href="<%=request.getContextPath()%>/jsp/teacher/register.jsp" class="action-btn">👨‍🏫 Add Teacher</a>
-                            <a href="<%=request.getContextPath()%>/Admin/Notices" class="action-btn">📢 Send Notice</a>
-                            <a href="<%=request.getContextPath()%>/Admin/Fees" class="action-btn">💰 Manage Fees</a>
-                            <a href="<%=request.getContextPath()%>/Admin/Notifications" class="action-btn">🔔 Send Notification</a>
+                        <%
+                            List<Map<String,String>> notifs = (List<Map<String,String>>) request.getAttribute("notifications");
+                            if (notifs != null && !notifs.isEmpty()) {
+                                for (Map<String,String> n : notifs) {
+                        %>
+                        <div class="notif-item">
+                            <div class="notif-dot"></div>
+                            <div class="notif-body"><p><%= n.get("message") %></p><span><%= n.get("time") != null ? n.get("time").toString().substring(0,10) : "" %></span></div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="right-column">
-                <div class="card notifications">
-                    <div class="card-header">
-                        <h3>🔔 Notifications</h3>
-                    </div>
-                    <div class="card-body">
-                        <c:choose>
-                            <c:when test="${not empty notificationsList}">
-                                <div class="timeline">
-                                    <c:forEach var="n" items="${notificationsList}">
-                                        <div class="timeline-item">
-                                            <div class="timeline-content">${n.message}</div>
-                                            <div class="timeline-time">${n.time}</div>
-                                        </div>
-                                    </c:forEach>
-                                </div>
-                            </c:when>
-                            <c:otherwise>
-                                <p>No notifications available</p>
-                            </c:otherwise>
-                        </c:choose>
+                        <% } } else { %>
+                        <div class="empty-state"><i class="fas fa-bell-slash"></i><p>No notifications</p></div>
+                        <% } %>
                     </div>
                 </div>
 
-                <div class="card exam-card">
-                    <div class="card-header">
-                        <h3>📝 Incoming Exam</h3>
-                    </div>
+                <div class="card">
+                    <div class="card-head"><h3><i class="fas fa-file-alt"></i> Upcoming Exams</h3><a href="<%=request.getContextPath()%>/admin/exam" class="card-link">View All &rsaquo;</a></div>
                     <div class="card-body">
-                        <div class="exam-info">
-                            <span class="exam-subject">${examSubject}</span>
-                            <span class="exam-date">📅 ${examDate}</span>
+                        <%
+                            List<Map<String,String>> exams = (List<Map<String,String>>) request.getAttribute("upcomingExams");
+                            if (exams != null && !exams.isEmpty()) {
+                                for (Map<String,String> e : exams) {
+                        %>
+                        <div class="exam-item">
+                            <div class="exam-info">
+                                <p class="exam-subject"><%= e.get("subject") %></p>
+                                <span class="exam-class">Class: <%= e.get("class_name") %></span>
+                            </div>
+                            <span class="exam-date"><%= e.get("exam_date") != null ? e.get("exam_date").substring(0,10) : "" %></span>
                         </div>
-                        <a href="<%=request.getContextPath()%>/Admin/ExamSchedule" class="view-schedule-btn">View Schedule →</a>
+                        <% } } else { %>
+                        <div class="empty-state"><i class="fas fa-file-alt"></i><p>No upcoming exams</p></div>
+                        <% } %>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 </div>
-
 </body>
 </html>

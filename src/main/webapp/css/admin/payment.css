@@ -1,0 +1,322 @@
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+}
+
+.stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,0.1); }
+
+.stat-card.green::before  { background: #10b981; }
+.stat-card.red::before    { background: #ef4444; }
+.stat-card.blue::before   { background: #3b82f6; }
+.stat-card.orange::before { background: #f59e0b; }
+
+.stat-icon {
+    font-size: 1.4rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.stat-card.green  .stat-icon { background: #d1fae5; color: #10b981; }
+.stat-card.red    .stat-icon { background: #fee2e2; color: #ef4444; }
+.stat-card.blue   .stat-icon { background: #dbeafe; color: #3b82f6; }
+.stat-card.orange .stat-icon { background: #fed7aa; color: #f59e0b; }
+
+.stat-body p { font-size: 0.75rem; color: #64748b; font-weight: 500; margin-bottom: 4px; }
+.stat-body h3 { font-size: 1.5rem; font-weight: 800; color: #1e293b; }
+
+.payment-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.tab-btn {
+    padding: 10px 24px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 30px;
+    background: white;
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #2E3192, #1B998B);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 14px rgba(46,49,146,0.25);
+}
+
+.tab-btn:hover:not(.active) { border-color: #2E3192; color: #2E3192; }
+
+.tab-content { }
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.class-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.class-card {
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.25s;
+    position: relative;
+}
+
+.class-card:hover {
+    background: white;
+    border-color: #2E3192;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(46,49,146,0.12);
+}
+
+.class-card-icon {
+    font-size: 1.4rem;
+    color: #2E3192;
+    width: 46px;
+    height: 46px;
+    background: #eef2ff;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.class-card-info h3 { font-size: 0.92rem; font-weight: 700; color: #1e293b; margin-bottom: 6px; }
+.class-card-info p  { font-size: 0.78rem; color: #64748b; margin-bottom: 2px; display: flex; align-items: center; gap: 5px; }
+
+.teacher-photo {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e2e8f0;
+}
+
+.btn-pay {
+    padding: 7px 16px;
+    background: linear-gradient(135deg, #2E3192, #1B998B);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+}
+
+.btn-pay:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(46,49,146,0.3); }
+
+.teacher-pay-info {
+    background: #f8fafc;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid #e2e8f0;
+}
+
+.pay-info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px dashed #e2e8f0;
+    font-size: 0.85rem;
+}
+
+.pay-info-row:last-child { border-bottom: none; }
+.pay-info-row span { color: #64748b; }
+.pay-info-row strong { color: #1e293b; }
+
+.pay-divider { border: none; border-top: 1px solid #e2e8f0; margin: 16px 0; }
+
+.bank-details-section { margin-bottom: 4px; }
+
+.bank-details-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.bank-details-head h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.btn-edit-bank {
+    padding: 6px 14px;
+    background: #fef3c7;
+    color: #92400e;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-edit-bank:hover { background: #fde68a; }
+
+.bank-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.bank-info-item { display: flex; flex-direction: column; gap: 3px; }
+.bank-info-item span { font-size: 0.7rem; font-weight: 600; color: #94a3b8; text-transform: uppercase; }
+.bank-info-item p { font-size: 0.85rem; color: #1e293b; font-weight: 500; }
+
+.fees-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.fees-summary-card {
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.fees-summary-card.total   { background: #f1f5f9; border: 1px solid #e2e8f0; }
+.fees-summary-card.paid    { background: #f0fdf4; border: 1px solid #bbf7d0; }
+.fees-summary-card.pending { background: #fff5f5; border: 1px solid #fecaca; }
+
+.fees-summary-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.fees-summary-card.total   .fees-summary-icon { background: #e2e8f0; color: #475569; }
+.fees-summary-card.paid    .fees-summary-icon { background: #d1fae5; color: #059669; }
+.fees-summary-card.pending .fees-summary-icon { background: #fee2e2; color: #dc2626; }
+
+.fees-summary-card p { font-size: 0.75rem; color: #64748b; margin-bottom: 4px; }
+.fees-summary-card h3 { font-size: 1.4rem; font-weight: 800; color: #1e293b; }
+
+.status-paid-badge {
+    background: #d1fae5;
+    color: #065f46;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.btn-view-fees {
+    padding: 6px 14px;
+    background: #dbeafe;
+    color: #1e40af;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-view-fees:hover { background: #bfdbfe; }
+
+.fees-detail-info { background: #f8fafc; border-radius: 14px; padding: 18px; }
+
+.fees-detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed #e2e8f0;
+    font-size: 0.88rem;
+}
+
+.fees-detail-row:last-child { border-bottom: none; }
+.fees-detail-row span { color: #64748b; }
+.fees-detail-row strong { color: #1e293b; }
+
+@media (max-width: 1100px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .class-grid { grid-template-columns: 1fr 1fr; }
+    .fees-summary-grid { grid-template-columns: 1fr; }
+    .bank-info-grid { grid-template-columns: 1fr; }
+    .payment-tabs { flex-direction: column; }
+}

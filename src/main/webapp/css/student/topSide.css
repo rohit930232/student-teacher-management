@@ -1,0 +1,14 @@
+.topbar-profile-link { display: flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; }
+.topbar-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); transition: transform 0.2s; }
+.topbar-avatar:hover { transform: scale(1.08); }
+.topbar-avatar-placeholder { width: 40px; height: 40px; border-radius: 50%; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; transition: transform 0.2s; }
+.topbar-avatar-placeholder:hover { transform: scale(1.08); }
+.topbar-info span { display: block; font-size: 13px; font-weight: 700; color: var(--text); }
+.topbar-info small { font-size: 11px; color: var(--muted); }
+.icon-btn { position: relative; width: 40px; height: 40px; background: var(--primary-light); border-radius: 10px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 16px; text-decoration: none; transition: all 0.2s; }
+.icon-btn:hover { background: var(--primary); color: #fff; }
+.brand{
+	display: flex; 
+	align-items: center;
+	justify-content:center;
+}

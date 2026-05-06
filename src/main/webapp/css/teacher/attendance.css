@@ -1,0 +1,28 @@
+.class-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+.class-tab { display: flex; align-items: center; gap: 7px; padding: 9px 18px; border-radius: 10px; background: var(--card); color: var(--muted); font-size: 13px; font-weight: 600; text-decoration: none; border: 1px solid var(--border); transition: all 0.2s; box-shadow: var(--shadow); }
+.class-tab:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+.class-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: 0 4px 14px rgba(67,97,238,0.35); }
+
+.select-class-msg { text-align: center; padding: 60px; color: var(--muted); }
+.select-class-msg i { font-size: 48px; display: block; margin-bottom: 14px; opacity: 0.4; }
+.select-class-msg p { font-size: 16px; }
+
+.tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+.tab { padding: 10px 22px; border-radius: 10px; border: none; background: var(--card); color: var(--muted); font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Nunito', sans-serif; display: flex; align-items: center; gap: 8px; box-shadow: var(--shadow); transition: all 0.2s; }
+.tab.active { background: var(--primary); color: #fff; }
+
+.date-input { padding: 8px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 14px; font-family: 'Nunito', sans-serif; outline: none; }
+.date-input:focus { border-color: var(--primary); }
+
+.data-table input[type="radio"] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary); }
+
+.submit-wrap { padding: 16px 24px; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+.btn-submit { background: var(--primary); color: #fff; border: none; padding: 11px 28px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Nunito', sans-serif; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
+.btn-submit:hover { background: #3a56d4; }
+
+.pct-badge { padding: 4px 10px; border-radius: 20px; font-weight: 700; font-size: 12px; }
+.pct-good { background: var(--green-light); color: var(--green); }
+.pct-avg  { background: var(--orange-light); color: var(--orange); }
+.pct-low  { background: var(--red-light);    color: var(--red); }
+
+.modal-lg { max-width: 600px; }

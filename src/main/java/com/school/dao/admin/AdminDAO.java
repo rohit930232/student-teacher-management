@@ -69,6 +69,19 @@ public class AdminDAO {
         }
         return list;
     }
+    public boolean updateAdminPhoto(String username, String photoPath) {
+        try {
+            Connection con = DBConnection.getConnection();
+            String sql = "UPDATE st_admin SET photo = ? WHERE username = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, photoPath);
+            ps.setString(2, username);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     public double getTotalFees() {
         double total = 0;
         try {

@@ -2,79 +2,80 @@ package com.school.controller.student;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-
+import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-
 import com.school.dao.student.StudentDAO;
 import com.school.model.student.Student;
 import com.school.util.PasswordUtil;
-
-import javax.servlet.ServletException;
+import com.school.exception.student.*;
 
 @WebServlet("/Student/Register")
 @MultipartConfig
 public class StudentRegisterServlet extends HttpServlet {
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             Student s = new Student();
-            String password = request.getParameter("password");
-            s.setPassword(PasswordUtil.hashPassword(password));
+
+            s.setPassword(PasswordUtil.hashPassword(request.getParameter("password")));
             s.setUsername(request.getParameter("username"));
             s.setName(request.getParameter("name"));
             s.setEmail(request.getParameter("email"));
             s.setStudent_mobile(request.getParameter("student_mobile"));
             s.setPermanent_address(request.getParameter("permanent_address"));
             s.setTemporary_address(request.getParameter("temporary_address"));
-            String cid = request.getParameter("class_id");
-            System.out.println("CLASS_ID = " + cid);
-            if (cid == null || cid.isEmpty()) {
-                throw new RuntimeException("Class ID missing");
+            s.setGender(request.getParameter("gender"));
+
+            String bloodGroup = request.getParameter("blood_group");
+            if (bloodGroup != null && !bloodGroup.trim().isEmpty()) {
+                s.setBlood_group(bloodGroup);
             }
-            int classId = Integer.parseInt(cid);
-            s.setClass_id(classId);
+
+            String cid = request.getParameter("class_id");
+            if (cid == null || cid.isEmpty()) throw new RuntimeException("Class ID missing");
+            s.setClass_id(Integer.parseInt(cid));
+
             s.setFather_name(request.getParameter("father_name"));
             s.setMother_name(request.getParameter("mother_name"));
             s.setParents_mobile(request.getParameter("parents_mobile"));
             s.setFather_occupation(request.getParameter("father_occupation"));
             s.setMother_occupation(request.getParameter("mother_occupation"));
+
             String incomeStr = request.getParameter("annual_income");
             if (incomeStr != null && !incomeStr.isEmpty()) {
                 s.setAnnual_income(Double.parseDouble(incomeStr));
             }
+
             String dobStr = request.getParameter("dob");
             if (dobStr != null && !dobStr.isEmpty()) {
                 s.setDob(new SimpleDateFormat("yyyy-MM-dd").parse(dobStr));
             }
-            s.setBlood_group(request.getParameter("blood_group"));
-            s.setGender(request.getParameter("gender"));
 
-            // 🎓 Roll number
-            String roll = request.getParameter("roll_number");
-            if (roll != null && !roll.isEmpty()) {
-                s.setRoll_number(Integer.parseInt(roll));
-            }
             Part filePart = request.getPart("photo");
-            String fileName = filePart.getSubmittedFileName();
-
-            if (fileName != null && !fileName.isEmpty()) {
+            if (filePart != null && filePart.getSize() > 0) {
+                String fileName = filePart.getSubmittedFileName();
                 String uploadPath = getServletContext().getRealPath("") + "uploads";
+                new java.io.File(uploadPath).mkdirs();
                 filePart.write(uploadPath + "/" + fileName);
                 s.setPhoto("uploads/" + fileName);
             }
+
             StudentDAO dao = new StudentDAO();
             boolean status = dao.insertStudent(s);
+
             if (status) {
-                response.sendRedirect(request.getContextPath() + "/jsp/student/register.jsp?message=Success");
+                response.sendRedirect(request.getContextPath() + "/jsp/student/register.jsp?message=Registered Successfully");
             } else {
-                response.sendRedirect(request.getContextPath() + "/jsp/student/register.jsp?error=Failed");
+                response.sendRedirect(request.getContextPath() + "/jsp/student/register.jsp?error=Registration Failed");
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
-            response.sendRedirect(request.getContextPath() + "/jsp/student/register.jsp?error=Exception");
+        	StudentExceptionHandler.handle(request, response,
+        	        new StudentRegistrationException("We could not complete your registration. Please check the form details and try again.", e));
+        	    return;
         }
     }
 }

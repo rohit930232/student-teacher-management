@@ -1,0 +1,6 @@
+.notif-list { padding: 8px 24px; }
+.notif-item { display: flex; align-items: flex-start; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+.notif-item:last-child { border-bottom: none; }
+.notif-dot  { width: 10px; height: 10px; background: var(--primary); border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+.notif-msg  { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.notif-time { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
