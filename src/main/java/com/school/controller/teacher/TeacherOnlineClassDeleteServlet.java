@@ -14,11 +14,15 @@ public class TeacherOnlineClassDeleteServlet extends HttpServlet {
             throws ServletException, IOException {
         String classId = request.getParameter("class_id");
         try {
-            int ocId = Integer.parseInt(request.getParameter("class_id_oc"));
+            String ocId = request.getParameter("class_id_oc");
+            System.out.println("Deleting online class id: " + ocId);
             Connection con = DBConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement("DELETE FROM st_online_class WHERE class_id=?");
-            ps.setInt(1, ocId);
-            ps.executeUpdate();
+            PreparedStatement ps = con.prepareStatement(
+                "DELETE FROM st_online_class WHERE online_class_id=?"
+            );
+            ps.setInt(1, Integer.parseInt(ocId));
+            int rows = ps.executeUpdate();
+            System.out.println("Deleted rows: " + rows);
         } catch (Exception e) { e.printStackTrace(); }
         response.sendRedirect(request.getContextPath() + "/teacher/onlineclass?class_id=" + classId);
     }

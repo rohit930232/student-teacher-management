@@ -6,6 +6,7 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import com.school.dao.admin.AdminTimetableGridDAO;
 import com.school.util.DBConnection;
 
 @WebServlet("/teacher/timetable")
@@ -30,8 +31,15 @@ public class TeacherTimetableServlet extends HttpServlet {
 
             if (classIdParam != null && !classIdParam.isEmpty()) {
                 int classId = Integer.parseInt(classIdParam);
+
+                // Period mode timetable
                 Map<String,List<Map<String,String>>> timetableByDay = new LinkedHashMap<>();
-                String sql = "SELECT t.*, te.name AS teacher_name FROM st_timetable t LEFT JOIN st_teacher te ON t.teacher_id=te.teacher_id WHERE t.class_id=? ORDER BY CASE t.day WHEN 'Monday' THEN 1 WHEN 'Tuesday' THEN 2 WHEN 'Wednesday' THEN 3 WHEN 'Thursday' THEN 4 WHEN 'Friday' THEN 5 WHEN 'Saturday' THEN 6 ELSE 7 END, t.start_time";
+                String sql = "SELECT t.*, te.name AS teacher_name FROM st_timetable t " +
+                             "LEFT JOIN st_teacher te ON t.teacher_id=te.teacher_id " +
+                             "WHERE t.class_id=? " +
+                             "ORDER BY CASE t.day WHEN 'Monday' THEN 1 WHEN 'Tuesday' THEN 2 " +
+                             "WHEN 'Wednesday' THEN 3 WHEN 'Thursday' THEN 4 " +
+                             "WHEN 'Friday' THEN 5 WHEN 'Saturday' THEN 6 ELSE 7 END, t.start_time";
                 PreparedStatement ps = con.prepareStatement(sql);
                 ps.setInt(1, classId);
                 ResultSet rs = ps.executeQuery();
@@ -45,6 +53,11 @@ public class TeacherTimetableServlet extends HttpServlet {
                     timetableByDay.computeIfAbsent(day, k -> new ArrayList<>()).add(slot);
                 }
                 request.setAttribute("timetableByDay", timetableByDay);
+
+                // Grid timetables from admin
+                AdminTimetableGridDAO gridDao = new AdminTimetableGridDAO();
+                List<Map<String,String>> gridList = gridDao.getGridsByClass(classId);
+                request.setAttribute("gridList", gridList);
             }
         } catch (Exception e) { e.printStackTrace(); }
         RequestDispatcher rd = request.getRequestDispatcher("/jsp/teacher/timetable.jsp");

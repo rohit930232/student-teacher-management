@@ -6,7 +6,7 @@
 %>
 <!DOCTYPE html>
 <html>
-jsp<head>
+<head>
     <meta charset="UTF-8">
     <title>Notices</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/student/topSide.css">
@@ -23,7 +23,10 @@ jsp<head>
             <div class="page-card">
                 <div class="page-card-head">
                     <h2><i class="fas fa-bullhorn"></i> All Notices</h2>
-                    <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchInput" placeholder="Search notice..." onkeyup="searchList()"></div>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search notice..." onkeyup="searchList()">
+                    </div>
                 </div>
                 <div class="notice-list" id="noticeList">
                     <%
@@ -35,10 +38,18 @@ jsp<head>
                         <div class="notice-icon"><i class="fas fa-bullhorn"></i></div>
                         <div class="notice-body">
                             <p class="notice-msg"><%= n.get("message") %></p>
-                            <span class="notice-date"><i class="fas fa-calendar"></i> <%= n.get("date") != null ? n.get("date").substring(0,10) : "" %></span>
+                            <span class="notice-date">
+                                <i class="fas fa-calendar"></i>
+                                <%= n.get("date") != null && n.get("date").length() >= 10 ? n.get("date").substring(0,10) : "" %>
+                            </span>
                         </div>
                     </div>
-                    <% } } else { %><div class="empty-state"><i class="fas fa-bullhorn"></i><p>No notices available</p></div><% } %>
+                    <% } } else { %>
+                    <div class="empty-state">
+                        <i class="fas fa-bullhorn"></i>
+                        <p>No notices available</p>
+                    </div>
+                    <% } %>
                 </div>
             </div>
         </div>
@@ -47,8 +58,9 @@ jsp<head>
 <script>
 function searchList() {
     let input = document.getElementById("searchInput").value.toLowerCase();
-    let items = document.querySelectorAll(".notice-item");
-    items.forEach(item => item.style.display = item.innerText.toLowerCase().includes(input) ? "" : "none");
+    document.querySelectorAll(".notice-item").forEach(item => {
+        item.style.display = item.innerText.toLowerCase().includes(input) ? "" : "none";
+    });
 }
 </script>
 </body>

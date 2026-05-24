@@ -1,13 +1,12 @@
 package com.school.controller.student;
-import com.school.exception.student.*;
 
 import java.io.*;
 import java.sql.*;
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
-import com.school.dao.student.StudentDAO;
 import com.school.util.DBConnection;
+import com.school.exception.student.*;
 
 @WebServlet("/student/profile/update")
 @MultipartConfig(fileSizeThreshold = 1024*1024, maxFileSize = 5*1024*1024)
@@ -25,17 +24,16 @@ public class StudentProfileUpdateServlet extends HttpServlet {
             if ("photo".equals(section)) {
                 Part filePart = request.getPart("photo");
                 if (filePart != null && filePart.getSize() > 0) {
-                    String fileName = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
+                    String fileName  = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
                     String uploadDir = getServletContext().getRealPath("/uploads/student/");
                     new File(uploadDir).mkdirs();
                     filePart.write(uploadDir + File.separator + fileName);
                     String photoPath = "uploads/student/" + fileName;
-
-                    PreparedStatement ps = con.prepareStatement("UPDATE st_student SET photo=? WHERE username=?");
+                    PreparedStatement ps = con.prepareStatement(
+                        "UPDATE st_student SET photo=? WHERE username=?");
                     ps.setString(1, photoPath);
                     ps.setString(2, currentUsername);
                     ps.executeUpdate();
-
                     session.setAttribute("photo", photoPath);
                 }
 
@@ -47,7 +45,8 @@ public class StudentProfileUpdateServlet extends HttpServlet {
                 String bloodGroup  = request.getParameter("blood_group");
 
                 if (!newUsername.equals(currentUsername)) {
-                    PreparedStatement checkPs = con.prepareStatement("SELECT username FROM st_student WHERE username=?");
+                    PreparedStatement checkPs = con.prepareStatement(
+                        "SELECT username FROM st_student WHERE username=?");
                     checkPs.setString(1, newUsername);
                     ResultSet rs = checkPs.executeQuery();
                     if (rs.next()) {
@@ -55,7 +54,6 @@ public class StudentProfileUpdateServlet extends HttpServlet {
                         return;
                     }
                 }
-
                 PreparedStatement ps = con.prepareStatement(
                     "UPDATE st_student SET name=?, username=?, dob=?, gender=?, blood_group=? WHERE username=?");
                 ps.setString(1, name);
@@ -65,7 +63,6 @@ public class StudentProfileUpdateServlet extends HttpServlet {
                 ps.setString(5, bloodGroup);
                 ps.setString(6, currentUsername);
                 ps.executeUpdate();
-
                 session.setAttribute("username", newUsername);
                 session.setAttribute("fullname", name);
 
@@ -82,7 +79,8 @@ public class StudentProfileUpdateServlet extends HttpServlet {
             } else if ("family".equals(section)) {
                 String income = request.getParameter("annual_income");
                 PreparedStatement ps = con.prepareStatement(
-                    "UPDATE st_student SET father_name=?, mother_name=?, parents_mobile=?, father_occupation=?, mother_occupation=?, annual_income=? WHERE username=?");
+                    "UPDATE st_student SET father_name=?, mother_name=?, parents_mobile=?, "
+                    + "father_occupation=?, mother_occupation=?, annual_income=? WHERE username=?");
                 ps.setString(1, request.getParameter("father_name"));
                 ps.setString(2, request.getParameter("mother_name"));
                 ps.setString(3, request.getParameter("parents_mobile"));
@@ -94,11 +92,10 @@ public class StudentProfileUpdateServlet extends HttpServlet {
             }
 
             response.sendRedirect(request.getContextPath() + "/student/profile?success=1");
-        } catch (Exception e) {
-        	StudentExceptionHandler.handle(request, response,
-        	        new StudentProfileException("Your profile could not be updated. Please check the entered details and try again.", e));
-        	    return;
 
+        } catch (Exception e) {
+            StudentExceptionHandler.handle(request, response,
+                new StudentProfileException("Your profile could not be updated. Please try again.", e));
         }
     }
 }

@@ -10,7 +10,6 @@ import com.school.dao.student.StudentDAO;
 import com.school.model.student.Student;
 import com.school.util.DBConnection;
 import com.school.exception.student.*;
-import com.school.exception.student.*;
 
 @WebServlet("/student/timetable")
 public class StudentTimetableServlet extends HttpServlet {
@@ -20,32 +19,35 @@ public class StudentTimetableServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession(false);
             String username = (String) session.getAttribute("username");
-            Connection con = DBConnection.getConnection();
-            StudentDAO dao = new StudentDAO();
+            Connection con  = DBConnection.getConnection();
+            StudentDAO dao  = new StudentDAO();
             Student student = dao.getStudentByUsername(username);
 
-            Map<String,List<Map<String,String>>> timetableByDay = new LinkedHashMap<>();
+            Map<String, List<Map<String,String>>> timetableByDay = new LinkedHashMap<>();
             if (student != null && student.getClass_id() > 0) {
-                String sql = "SELECT * FROM st_timetable WHERE class_id=? ORDER BY CASE day WHEN 'Monday' THEN 1 WHEN 'Tuesday' THEN 2 WHEN 'Wednesday' THEN 3 WHEN 'Thursday' THEN 4 WHEN 'Friday' THEN 5 WHEN 'Saturday' THEN 6 ELSE 7 END, start_time";
+                String sql = "SELECT tt.*, t.name AS teacher_name FROM st_timetable tt "
+                           + "LEFT JOIN st_teacher t ON tt.teacher_id = t.teacher_id "
+                           + "WHERE tt.class_id=? ORDER BY tt.day, tt.start_time";
                 PreparedStatement ps = con.prepareStatement(sql);
                 ps.setInt(1, student.getClass_id());
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     String day = rs.getString("day");
                     Map<String,String> slot = new HashMap<>();
-                    slot.put("subject", rs.getString("subject"));
-                    slot.put("start_time", rs.getString("start_time"));
-                    slot.put("end_time", rs.getString("end_time"));
+                    slot.put("subject",      rs.getString("subject"));
+                    slot.put("start_time",   rs.getString("start_time"));
+                    slot.put("end_time",     rs.getString("end_time"));
+                    slot.put("teacher_name", rs.getString("teacher_name") != null ? rs.getString("teacher_name") : "-");
                     timetableByDay.computeIfAbsent(day, k -> new ArrayList<>()).add(slot);
                 }
             }
             request.setAttribute("timetableByDay", timetableByDay);
+
         } catch (Exception e) {
-        	 StudentExceptionHandler.handle(request, response,
-        		        new StudentTimetableException("We could not load your timetable. Please try again after some time.", e));
-        		    return; 
-        	}
-        RequestDispatcher rd = request.getRequestDispatcher("/jsp/student/timetable.jsp");
-        rd.forward(request, response);
+            StudentExceptionHandler.handle(request, response,
+                new StudentTimetableException("We could not load your timetable. Please try again later.", e));
+            return;
+        }
+        request.getRequestDispatcher("/jsp/student/timetable.jsp").forward(request, response);
     }
 }

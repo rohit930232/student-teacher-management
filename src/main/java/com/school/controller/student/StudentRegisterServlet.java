@@ -1,10 +1,9 @@
 package com.school.controller.student;
 
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.*;
+import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 import com.school.dao.student.StudentDAO;
 import com.school.model.student.Student;
@@ -19,7 +18,6 @@ public class StudentRegisterServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             Student s = new Student();
-
             s.setPassword(PasswordUtil.hashPassword(request.getParameter("password")));
             s.setUsername(request.getParameter("username"));
             s.setName(request.getParameter("name"));
@@ -30,9 +28,7 @@ public class StudentRegisterServlet extends HttpServlet {
             s.setGender(request.getParameter("gender"));
 
             String bloodGroup = request.getParameter("blood_group");
-            if (bloodGroup != null && !bloodGroup.trim().isEmpty()) {
-                s.setBlood_group(bloodGroup);
-            }
+            if (bloodGroup != null && !bloodGroup.trim().isEmpty()) s.setBlood_group(bloodGroup);
 
             String cid = request.getParameter("class_id");
             if (cid == null || cid.isEmpty()) throw new RuntimeException("Class ID missing");
@@ -45,26 +41,22 @@ public class StudentRegisterServlet extends HttpServlet {
             s.setMother_occupation(request.getParameter("mother_occupation"));
 
             String incomeStr = request.getParameter("annual_income");
-            if (incomeStr != null && !incomeStr.isEmpty()) {
-                s.setAnnual_income(Double.parseDouble(incomeStr));
-            }
+            if (incomeStr != null && !incomeStr.isEmpty()) s.setAnnual_income(Double.parseDouble(incomeStr));
 
             String dobStr = request.getParameter("dob");
-            if (dobStr != null && !dobStr.isEmpty()) {
-                s.setDob(new SimpleDateFormat("yyyy-MM-dd").parse(dobStr));
-            }
+            if (dobStr != null && !dobStr.isEmpty()) s.setDob(new SimpleDateFormat("yyyy-MM-dd").parse(dobStr));
 
             Part filePart = request.getPart("photo");
             if (filePart != null && filePart.getSize() > 0) {
-                String fileName = filePart.getSubmittedFileName();
-                String uploadPath = getServletContext().getRealPath("") + "uploads";
-                new java.io.File(uploadPath).mkdirs();
-                filePart.write(uploadPath + "/" + fileName);
-                s.setPhoto("uploads/" + fileName);
+                String fileName  = System.currentTimeMillis() + "_" + filePart.getSubmittedFileName();
+                String uploadDir = getServletContext().getRealPath("") + "uploads" + File.separator + "student";
+                new File(uploadDir).mkdirs();
+                filePart.write(uploadDir + File.separator + fileName);
+                s.setPhoto("uploads/student/" + fileName);
             }
 
-            StudentDAO dao = new StudentDAO();
-            boolean status = dao.insertStudent(s);
+            StudentDAO dao  = new StudentDAO();
+            boolean status  = dao.insertStudent(s);
 
             if (status) {
                 response.sendRedirect(request.getContextPath() + "/jsp/student/register.jsp?message=Registered Successfully");
@@ -73,9 +65,8 @@ public class StudentRegisterServlet extends HttpServlet {
             }
 
         } catch (Exception e) {
-        	StudentExceptionHandler.handle(request, response,
-        	        new StudentRegistrationException("We could not complete your registration. Please check the form details and try again.", e));
-        	    return;
+            StudentExceptionHandler.handle(request, response,
+                new StudentRegistrationException("Registration could not be completed. Please check the form and try again.", e));
         }
     }
 }

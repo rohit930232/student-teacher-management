@@ -30,6 +30,8 @@ public class TeacherStudentUpdateServlet extends HttpServlet {
             String motherOccupation = request.getParameter("mother_occupation");
             String incomeStr        = request.getParameter("annual_income");
             double annualIncome     = (incomeStr != null && !incomeStr.isEmpty()) ? Double.parseDouble(incomeStr) : 0;
+            String classIdNew       = request.getParameter("class_id_new");
+            int    newClassId       = (classIdNew != null && !classIdNew.isEmpty()) ? Integer.parseInt(classIdNew) : Integer.parseInt(classId);
 
             Connection con = DBConnection.getConnection();
 
@@ -46,7 +48,7 @@ public class TeacherStudentUpdateServlet extends HttpServlet {
             StringBuilder sql = new StringBuilder(
                 "UPDATE st_student SET roll_number=?, name=?, username=?, email=?, mobile=?, " +
                 "temporary_address=?, permanent_address=?, father_name=?, mother_name=?, " +
-                "parents_mobile=?, father_occupation=?, mother_occupation=?, annual_income=?"
+                "parents_mobile=?, father_occupation=?, mother_occupation=?, annual_income=?, class_id=?"
             );
             if (photoPath != null) sql.append(", photo=?");
             sql.append(" WHERE student_id=?");
@@ -66,6 +68,7 @@ public class TeacherStudentUpdateServlet extends HttpServlet {
             ps.setString(idx++, fatherOccupation);
             ps.setString(idx++, motherOccupation);
             ps.setDouble(idx++, annualIncome);
+            ps.setInt(idx++,    newClassId);
             if (photoPath != null) ps.setString(idx++, photoPath);
             ps.setInt(idx++, studentId);
             ps.executeUpdate();

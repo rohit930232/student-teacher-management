@@ -51,14 +51,8 @@
                     <table class="data-table" id="studentTable">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Roll No.</th>
-                                <th>Gender</th>
-                                <th>Fees Paid</th>
-                                <th>Fees Due</th>
-                                <th>Actions</th>
+                                <th>#</th><th>Photo</th><th>Name</th><th>Roll No.</th>
+                                <th>Gender</th><th>Fees Paid</th><th>Fees Due</th><th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -90,6 +84,7 @@
                                         String _sFDue    = _s.get("fees_remaining")    != null ? _s.get("fees_remaining")                        : "0";
                                         String _sSID     = _s.get("student_id")        != null ? _s.get("student_id")                            : "";
                                         String _sRoll    = _s.get("roll_number")       != null ? _s.get("roll_number")                           : "";
+                                        String _sCID     = _s.get("class_id")          != null ? _s.get("class_id")                              : "";
                             %>
                             <tr>
                                 <td><%= _i++ %></td>
@@ -113,19 +108,15 @@
                                         '<%= _sMother %>','<%= _sPMobile %>','<%= _sFOcc %>',
                                         '<%= _sMOcc %>','<%= _sIncome %>','<%= _sAddr %>',
                                         '<%= _sPAddr %>','<%= _sFPaid %>','<%= _sFDue %>',
-                                        '<%= _sPhoto %>','<%= _sClass %>','<%= _sUser %>'
-                                    )">
-                                        <i class="fas fa-eye"></i> View
-                                    </button>
+                                        '<%= _sPhoto %>','<%= _sClass %>','<%= _sUser %>','<%= _sCID %>'
+                                    )"><i class="fas fa-eye"></i> View</button>
                                     <button class="btn-edit" onclick="openEditModal(
                                         '<%= _sSID %>','<%= _sRoll %>','<%= _sName %>',
                                         '<%= _sUser %>','<%= _sEmail %>','<%= _sMobile %>',
                                         '<%= _sAddr %>','<%= _sPAddr %>','<%= _sFather %>',
                                         '<%= _sMother %>','<%= _sPMobile %>','<%= _sFOcc %>',
-                                        '<%= _sMOcc %>','<%= _sIncome %>'
-                                    )">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
+                                        '<%= _sMOcc %>','<%= _sIncome %>','<%= _sCID %>'
+                                    )"><i class="fas fa-edit"></i> Edit</button>
                                 </td>
                             </tr>
                             <% } } else { %>
@@ -231,6 +222,18 @@
                         <label>Mobile</label>
                         <input type="text" name="mobile" id="e_mobile">
                     </div>
+                    <div class="form-field">
+                        <label>Change Class <small>(promote/demote student)</small></label>
+                        <select name="class_id_new" id="e_class_id">
+                            <%
+                                List<Map<String,String>> _editClasses = (List<Map<String,String>>) request.getAttribute("classes");
+                                if (_editClasses != null) {
+                                    for (Map<String,String> _ec : _editClasses) {
+                            %>
+                            <option value="<%= _ec.get("class_id") %>"><%= _ec.get("class_name") %></option>
+                            <% } } %>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="edit-section-title"><i class="fas fa-map-marker-alt"></i> Address</div>
@@ -294,10 +297,10 @@ function searchTable() {
 
 function openViewModal(id, name, roll, email, mobile, dob, gender, blood,
                        father, mother, pmobile, focc, mocc, income,
-                       addr, paddr, fpaid, fdue, photo, className, username) {
+                       addr, paddr, fpaid, fdue, photo, className, username, cid) {
     currentStudent = {id, name, roll, email, mobile, dob, gender, blood,
                       father, mother, pmobile, focc, mocc, income,
-                      addr, paddr, fpaid, fdue, photo, className, username};
+                      addr, paddr, fpaid, fdue, photo, className, username, cid};
     document.getElementById("v_sid").innerText     = id;
     document.getElementById("v_name").innerText    = name;
     document.getElementById("v_class").innerText   = className;
@@ -345,27 +348,37 @@ function openEditFromView() {
         currentStudent.username, currentStudent.email, currentStudent.mobile,
         currentStudent.addr, currentStudent.paddr, currentStudent.father,
         currentStudent.mother, currentStudent.pmobile, currentStudent.focc,
-        currentStudent.mocc, currentStudent.income
+        currentStudent.mocc, currentStudent.income, currentStudent.cid
     );
 }
 
 function openEditModal(id, roll, name, username, email, mobile,
-                       addr, paddr, father, mother, pmobile, focc, mocc, income) {
-    document.getElementById("e_student_id").value    = id;
+                       addr, paddr, father, mother, pmobile, focc, mocc, income, cid) {
+    document.getElementById("e_student_id").value     = id;
     document.getElementById("e_name_title").innerText = name;
-    document.getElementById("e_fullname").value      = name;
-    document.getElementById("e_username").value      = username;
-    document.getElementById("e_roll").value          = roll;
-    document.getElementById("e_email").value         = email;
-    document.getElementById("e_mobile").value        = mobile;
-    document.getElementById("e_addr").value          = addr;
-    document.getElementById("e_paddr").value         = paddr;
-    document.getElementById("e_father").value        = father;
-    document.getElementById("e_mother").value        = mother;
-    document.getElementById("e_pmobile").value       = pmobile;
-    document.getElementById("e_focc").value          = focc;
-    document.getElementById("e_mocc").value          = mocc;
-    document.getElementById("e_income").value        = income;
+    document.getElementById("e_fullname").value       = name;
+    document.getElementById("e_username").value       = username;
+    document.getElementById("e_roll").value           = roll;
+    document.getElementById("e_email").value          = email;
+    document.getElementById("e_mobile").value         = mobile;
+    document.getElementById("e_addr").value           = addr;
+    document.getElementById("e_paddr").value          = paddr;
+    document.getElementById("e_father").value         = father;
+    document.getElementById("e_mother").value         = mother;
+    document.getElementById("e_pmobile").value        = pmobile;
+    document.getElementById("e_focc").value           = focc;
+    document.getElementById("e_mocc").value           = mocc;
+    document.getElementById("e_income").value         = income;
+    // Set class dropdown to student's current class
+    let classSelect = document.getElementById("e_class_id");
+    if (classSelect) {
+        for (let i = 0; i < classSelect.options.length; i++) {
+            if (classSelect.options[i].value === String(cid)) {
+                classSelect.selectedIndex = i;
+                break;
+            }
+        }
+    }
     document.getElementById("editModal").style.display = "flex";
 }
 

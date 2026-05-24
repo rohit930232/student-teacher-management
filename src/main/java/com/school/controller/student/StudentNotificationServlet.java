@@ -16,22 +16,23 @@ public class StudentNotificationServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             Connection con = DBConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM st_notification ORDER BY created_date DESC");
+            PreparedStatement ps = con.prepareStatement(
+                "SELECT * FROM st_notification ORDER BY created_date DESC");
             ResultSet rs = ps.executeQuery();
             List<Map<String,String>> notifications = new ArrayList<>();
             while (rs.next()) {
                 Map<String,String> n = new HashMap<>();
                 n.put("message", rs.getString("message"));
-                n.put("date", rs.getDate("created_date") != null ? rs.getDate("created_date").toString() : "");
+                n.put("date",    rs.getDate("created_date") != null ? rs.getDate("created_date").toString() : "");
                 notifications.add(n);
             }
             request.setAttribute("notifications", notifications);
+
         } catch (Exception e) {
-StudentExceptionHandler.handle(request, response,
-                new StudentNotificationException("We could not load your notifications. Please try again after some time.", e));
-        return;
+            StudentExceptionHandler.handle(request, response,
+                new StudentNotificationException("We could not load your notifications. Please try again later.", e));
+            return;
         }
-        RequestDispatcher rd = request.getRequestDispatcher("/jsp/student/notifications.jsp");
-        rd.forward(request, response);
+        request.getRequestDispatcher("/jsp/student/notifications.jsp").forward(request, response);
     }
 }

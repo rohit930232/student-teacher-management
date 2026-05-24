@@ -1,5 +1,4 @@
 package com.school.controller.student;
-import com.school.exception.student.*;
 
 import java.io.IOException;
 import java.sql.*;
@@ -9,6 +8,7 @@ import javax.servlet.http.*;
 import com.school.dao.student.StudentDAO;
 import com.school.model.student.Student;
 import com.school.util.DBConnection;
+import com.school.exception.student.*;
 
 @WebServlet("/student/profile")
 public class StudentProfileServlet extends HttpServlet {
@@ -18,23 +18,26 @@ public class StudentProfileServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession(false);
             String username = (String) session.getAttribute("username");
-            StudentDAO dao = new StudentDAO();
+            Connection con  = DBConnection.getConnection();
+            StudentDAO dao  = new StudentDAO();
             Student student = dao.getStudentByUsername(username);
-            request.setAttribute("student", student);
 
+            String className = "";
             if (student != null && student.getClass_id() > 0) {
-                Connection con = DBConnection.getConnection();
-                PreparedStatement ps = con.prepareStatement("SELECT class_name FROM st_class WHERE class_id=?");
+                PreparedStatement ps = con.prepareStatement(
+                    "SELECT class_name FROM st_class WHERE class_id=?");
                 ps.setInt(1, student.getClass_id());
                 ResultSet rs = ps.executeQuery();
-                if (rs.next()) request.setAttribute("className", rs.getString("class_name"));
+                if (rs.next()) className = rs.getString("class_name");
             }
-        } catch (Exception e) { 
-        	 StudentExceptionHandler.handle(request, response,
-        		        new StudentProfileException("We could not load your profile information. Please refresh the page or try again later.", e));
-        		    return;
-        	}
-        RequestDispatcher rd = request.getRequestDispatcher("/jsp/student/profile.jsp");
-        rd.forward(request, response);
+            request.setAttribute("student",   student);
+            request.setAttribute("className", className);
+
+        } catch (Exception e) {
+            StudentExceptionHandler.handle(request, response,
+                new StudentProfileException("We could not load your profile. Please try again later.", e));
+            return;
+        }
+        request.getRequestDispatcher("/jsp/student/profile.jsp").forward(request, response);
     }
 }

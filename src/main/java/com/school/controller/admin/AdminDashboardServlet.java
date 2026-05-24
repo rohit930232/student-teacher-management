@@ -1,10 +1,11 @@
 package com.school.controller.admin;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import com.school.dao.admin.AdminDashboardDAO;
+import com.school.exception.admin.*;
 
 @WebServlet("/admin/dashboard")
 public class AdminDashboardServlet extends HttpServlet {
@@ -18,15 +19,21 @@ public class AdminDashboardServlet extends HttpServlet {
             return;
         }
 
-        AdminDashboardDAO dao = new AdminDashboardDAO();
-        req.setAttribute("totalStudents",   dao.getTotalStudents());
-        req.setAttribute("totalTeachers",   dao.getTotalTeachers());
-        req.setAttribute("totalClasses",    dao.getTotalClasses());
-        req.setAttribute("totalStaff",      dao.getTotalStaff());
-        req.setAttribute("notices",         dao.getRecentNotices());
-        req.setAttribute("notifications",   dao.getRecentNotifications());
-        req.setAttribute("upcomingExams",   dao.getUpcomingExams());
+        try {
+            AdminDashboardDAO dao = new AdminDashboardDAO();
+            req.setAttribute("totalStudents", dao.getTotalStudents());
+            req.setAttribute("totalTeachers", dao.getTotalTeachers());
+            req.setAttribute("totalClasses",  dao.getTotalClasses());
+            req.setAttribute("totalStaff",    dao.getTotalStaff());
+            req.setAttribute("notices",       dao.getRecentNotices());
+            req.setAttribute("notifications", dao.getRecentNotifications());
+            req.setAttribute("upcomingExams", dao.getUpcomingExams());
 
+        } catch (Exception e) {
+            AdminExceptionHandler.handle(req, res,
+                new AdminDashboardException("We could not load the dashboard. Please try again later.", e));
+            return;
+        }
         req.getRequestDispatcher("/jsp/admin/dashboard.jsp").forward(req, res);
     }
 }

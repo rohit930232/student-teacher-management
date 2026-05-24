@@ -34,26 +34,44 @@ public class TeacherAssignmentServlet extends HttpServlet {
             }
             request.setAttribute("classes", classes);
 
-            if (classIdParam != null && !classIdParam.isEmpty() && teacher != null) {
+            // NULL check — class_id nahi hai toh skip karo
+            if (classIdParam != null && !classIdParam.isEmpty() && !classIdParam.equals("null")) {
                 int classId = Integer.parseInt(classIdParam);
+
+                PreparedStatement totalPs = con.prepareStatement(
+                    "SELECT COUNT(*) FROM st_student WHERE class_id=?"
+                );
+                totalPs.setInt(1, classId);
+                ResultSet totalRs = totalPs.executeQuery();
+                int totalStudents = totalRs.next() ? totalRs.getInt(1) : 0;
+                request.setAttribute("totalStudents", totalStudents);
+
                 List<Map<String,String>> assignments = new ArrayList<>();
-                String sql = "SELECT a.*, (SELECT COUNT(*) FROM st_student WHERE class_id=a.class_id) AS total_students FROM st_assignment a WHERE a.teacher_id=? AND a.class_id=? ORDER BY a.upload_date DESC";
+                String sql =
+                    "SELECT a.*, " +
+                    "(SELECT COUNT(*) FROM st_assignment_submission sub WHERE sub.assignment_id = a.assignment_id) AS completed_count " +
+                    "FROM st_assignment a " +
+                    "WHERE a.class_id = ? " +
+                    "ORDER BY a.upload_date DESC";
                 PreparedStatement ps = con.prepareStatement(sql);
-                ps.setInt(1, teacher.getTeacher_id());
-                ps.setInt(2, classId);
+                ps.setInt(1, classId);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     Map<String,String> a = new HashMap<>();
+                    int completedCount = rs.getInt("completed_count");
                     a.put("assignment_id",   String.valueOf(rs.getInt("assignment_id")));
                     a.put("title",           rs.getString("title"));
                     a.put("description",     rs.getString("description")  != null ? rs.getString("description")  : "");
                     a.put("file_path",       rs.getString("file_path")    != null ? rs.getString("file_path")    : "");
                     a.put("upload_date",     rs.getDate("upload_date")    != null ? rs.getDate("upload_date").toString() : "");
-                    a.put("deadline",        rs.getDate("deadline")       != null ? rs.getDate("deadline").toString()    : "");
-                    a.put("completed_count", "0");
+                    a.put("deadline",        rs.getDate("deadline")       != null ? rs.getDate("deadline").toString() : "");
+                    a.put("completed_count", String.valueOf(completedCount));
+                    a.put("pending_count",   String.valueOf(totalStudents - completedCount));
+                    a.put("total_students",  String.valueOf(totalStudents));
                     assignments.add(a);
                 }
-                request.setAttribute("assignments", assignments);
+                request.setAttribute("assignments",  assignments);
+                request.setAttribute("classIdParam", String.valueOf(classId));
             }
         } catch (Exception e) { e.printStackTrace(); }
         RequestDispatcher rd = request.getRequestDispatcher("/jsp/teacher/assignments.jsp");

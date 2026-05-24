@@ -15,11 +15,11 @@ public class StudentPasswordChangeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            HttpSession session = request.getSession(false);
-            String username    = (String) session.getAttribute("username");
-            String oldPassword = request.getParameter("old_password");
-            String newPassword = request.getParameter("new_password");
-            String confirmPass = request.getParameter("confirm_password");
+            HttpSession session  = request.getSession(false);
+            String username      = (String) session.getAttribute("username");
+            String oldPassword   = request.getParameter("old_password");
+            String newPassword   = request.getParameter("new_password");
+            String confirmPass   = request.getParameter("confirm_password");
 
             if (!newPassword.equals(confirmPass)) {
                 response.sendRedirect(request.getContextPath() + "/student/settings?error=1");
@@ -28,15 +28,17 @@ public class StudentPasswordChangeServlet extends HttpServlet {
 
             String hashedOld = PasswordUtil.hashPassword(oldPassword);
             String hashedNew = PasswordUtil.hashPassword(newPassword);
+            Connection con   = DBConnection.getConnection();
 
-            Connection con = DBConnection.getConnection();
-            PreparedStatement checkPs = con.prepareStatement("SELECT student_id FROM st_student WHERE username=? AND password=?");
+            PreparedStatement checkPs = con.prepareStatement(
+                "SELECT student_id FROM st_student WHERE username=? AND password=?");
             checkPs.setString(1, username);
             checkPs.setString(2, hashedOld);
             ResultSet rs = checkPs.executeQuery();
 
             if (rs.next()) {
-                PreparedStatement updatePs = con.prepareStatement("UPDATE st_student SET password=? WHERE username=?");
+                PreparedStatement updatePs = con.prepareStatement(
+                    "UPDATE st_student SET password=? WHERE username=?");
                 updatePs.setString(1, hashedNew);
                 updatePs.setString(2, username);
                 updatePs.executeUpdate();
@@ -44,13 +46,10 @@ public class StudentPasswordChangeServlet extends HttpServlet {
             } else {
                 response.sendRedirect(request.getContextPath() + "/student/settings?error=1");
             }
+
         } catch (Exception e) {
-        	 StudentExceptionHandler.handle(
-        		        request,
-        		        response,
-        		        new StudentPasswordChangeException("Your password could not be changed. Please check your details and try again.", e)
-        		    );
-        		    return;
+            StudentExceptionHandler.handle(request, response,
+                new StudentPasswordChangeException("Your password could not be changed. Please try again.", e));
         }
     }
 }

@@ -19,34 +19,34 @@ public class StudentExamServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession(false);
             String username = (String) session.getAttribute("username");
-            Connection con = DBConnection.getConnection();
-            StudentDAO dao = new StudentDAO();
+            Connection con  = DBConnection.getConnection();
+            StudentDAO dao  = new StudentDAO();
             Student student = dao.getStudentByUsername(username);
 
             List<Map<String,String>> exams = new ArrayList<>();
             if (student != null && student.getClass_id() > 0) {
-                String sql = "SELECT * FROM st_exam WHERE class_id=? ORDER BY exam_date DESC";
-                PreparedStatement ps = con.prepareStatement(sql);
+                PreparedStatement ps = con.prepareStatement(
+                    "SELECT * FROM st_exam WHERE class_id=? ORDER BY exam_date");
                 ps.setInt(1, student.getClass_id());
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     Map<String,String> e = new HashMap<>();
-                    e.put("exam_id", String.valueOf(rs.getInt("exam_id")));
-                    e.put("subject", rs.getString("subject"));
-                    e.put("exam_date", rs.getDate("exam_date") != null ? rs.getDate("exam_date").toString() : "");
-                    e.put("start_time", rs.getString("start_time"));
-                    e.put("end_time", rs.getString("end_time"));
+                    e.put("exam_id",     String.valueOf(rs.getInt("exam_id")));
+                    e.put("subject",     rs.getString("subject"));
+                    e.put("exam_date",   rs.getDate("exam_date")  != null ? rs.getDate("exam_date").toString() : "");
+                    e.put("start_time",  rs.getString("start_time"));
+                    e.put("end_time",    rs.getString("end_time"));
                     e.put("total_marks", String.valueOf(rs.getInt("total_marks")));
                     exams.add(e);
                 }
             }
             request.setAttribute("exams", exams);
-        } catch (Exception e) { 
-        	StudentExceptionHandler.handle(request, response,
+
+        } catch (Exception e) {
+            StudentExceptionHandler.handle(request, response,
                 new StudentExamException("We could not load your exam schedule. Please try again later.", e));
-        return;
+            return;
         }
-        RequestDispatcher rd = request.getRequestDispatcher("/jsp/student/exam.jsp");
-        rd.forward(request, response);
+        request.getRequestDispatcher("/jsp/student/exam.jsp").forward(request, response);
     }
 }

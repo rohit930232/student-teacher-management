@@ -39,21 +39,29 @@ public class TeacherOnlineClassServlet extends HttpServlet {
                 List<Map<String,String>> liveClasses     = new ArrayList<>();
                 List<Map<String,String>> upcomingClasses = new ArrayList<>();
 
-                String sql = "SELECT oc.*, t.name AS teacher_name FROM st_online_class oc LEFT JOIN st_teacher t ON oc.teacher_id=t.teacher_id WHERE oc.class_id=? ORDER BY oc.start_time";
+                String sql = "SELECT oc.*, t.name AS teacher_name " +
+                             "FROM st_online_class oc " +
+                             "LEFT JOIN st_teacher t ON oc.teacher_id = t.teacher_id " +
+                             "WHERE oc.class_id = ? " +
+                             "ORDER BY oc.start_time";
                 PreparedStatement ps = con.prepareStatement(sql);
                 ps.setInt(1, classId);
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     Map<String,String> c = new HashMap<>();
-                    c.put("online_class_id", String.valueOf(rs.getInt("class_id")));
+                    c.put("online_class_id", String.valueOf(rs.getInt("online_class_id")));
                     c.put("subject",         rs.getString("subject"));
                     c.put("teacher_name",    rs.getString("teacher_name") != null ? rs.getString("teacher_name") : "Teacher");
                     c.put("class_link",      rs.getString("class_link")   != null ? rs.getString("class_link")   : "#");
                     c.put("start_time",      rs.getTimestamp("start_time") != null ? rs.getTimestamp("start_time").toString() : "");
                     c.put("end_time",        rs.getTimestamp("end_time")   != null ? rs.getTimestamp("end_time").toString()   : "");
                     String status = rs.getString("status");
-                    if ("Live".equalsIgnoreCase(status)) liveClasses.add(c);
-                    else upcomingClasses.add(c);
+                    c.put("status", status != null ? status : "Upcoming");
+                    if ("Live".equalsIgnoreCase(status)) {
+                        liveClasses.add(c);
+                    } else {
+                        upcomingClasses.add(c);
+                    }
                 }
                 request.setAttribute("liveClasses",     liveClasses);
                 request.setAttribute("upcomingClasses", upcomingClasses);

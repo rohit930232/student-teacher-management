@@ -1,8 +1,7 @@
 package com.school.controller.student;
 
-import java.io.*;
+import java.io.IOException;
 import java.sql.*;
-import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import com.school.util.DBConnection;
@@ -11,16 +10,18 @@ import com.school.util.DBConnection;
 public class StudentProfileCheckUsernameServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
+        String username = request.getParameter("username");
         response.setContentType("text/plain");
-        PrintWriter out = response.getWriter();
         try {
-            String username = request.getParameter("username");
             Connection con = DBConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement("SELECT username FROM st_student WHERE username=?");
+            PreparedStatement ps = con.prepareStatement(
+                "SELECT username FROM st_student WHERE username=?");
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
-            out.print(rs.next() ? "taken" : "available");
-        } catch (Exception e) { out.print("error"); }
+            response.getWriter().write(rs.next() ? "taken" : "available");
+        } catch (Exception e) {
+            response.getWriter().write("error");
+        }
     }
 }

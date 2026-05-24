@@ -16,11 +16,25 @@ public class TeacherNoticeAddServlet extends HttpServlet {
         try {
             String message = request.getParameter("message");
             Connection con = DBConnection.getConnection();
-            PreparedStatement ps = con.prepareStatement("INSERT INTO st_notice (notice_id, message, created_date) VALUES (st_notice_seq.NEXTVAL, ?, SYSDATE)");
-            ps.setString(1, message);
-            ps.executeUpdate();
+
+            if (classId != null && !classId.isEmpty()) {
+                PreparedStatement ps = con.prepareStatement(
+                    "INSERT INTO st_notice (notice_id, message, created_date, class_id) VALUES (st_notice_seq.NEXTVAL, ?, SYSDATE, ?)"
+                );
+                ps.setString(1, message);
+                ps.setInt(2, Integer.parseInt(classId));
+                ps.executeUpdate();
+            } else {
+                PreparedStatement ps = con.prepareStatement(
+                    "INSERT INTO st_notice (notice_id, message, created_date) VALUES (st_notice_seq.NEXTVAL, ?, SYSDATE)"
+                );
+                ps.setString(1, message);
+                ps.executeUpdate();
+            }
+
         } catch (Exception e) { e.printStackTrace(); }
-        String redirect = classId != null && !classId.isEmpty()
+
+        String redirect = (classId != null && !classId.isEmpty())
             ? "/teacher/notices?class_id=" + classId
             : "/teacher/notices";
         response.sendRedirect(request.getContextPath() + redirect);

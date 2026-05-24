@@ -11,12 +11,14 @@ public class StudentLogoutServlet extends HttpServlet {
             throws IOException {
         HttpSession session = request.getSession(false);
         if (session != null) session.invalidate();
+
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie c : cookies) {
-                c.setMaxAge(0);
-                c.setPath("/");
-                response.addCookie(c);
+                if ("username".equals(c.getName()) || "password".equals(c.getName())) {
+                    c.setMaxAge(0);
+                    response.addCookie(c);
+                }
             }
         }
         response.sendRedirect(request.getContextPath() + "/jsp/login.jsp");
